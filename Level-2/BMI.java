@@ -1,46 +1,48 @@
 import java.util.Scanner;
 
 class BMI{
+    // Method to calculate BMI for each person
+    public static double calculateBMI(double weight, double height) {
+        // Convert height from cm to meters
+        height = height / 100;
+        return weight / (height * height);
+    }
+
+    // Method to determine the BMI status
+    public static String determineBMIStatus(double bmi) {
+        if (bmi < 18.5) {
+            return "Underweight";
+        } else if (bmi >= 18.5 && bmi < 24.9) {
+            return "Normal weight";
+        } else if (bmi >= 25 && bmi < 29.9) {
+            return "Overweight";
+        } else {
+            return "Obesity";
+        }
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        double[][] personData = new double[10][3]; // 10 persons, 3 columns (weight, height, BMI)
 
-        // Take input for the number of persons
-        System.out.print("Enter the number of persons: ");
-        int number = sc.nextInt();
-
-        // Create arrays to store height, weight, BMI, and weight status
-        double[] weight = new double[number];
-        double[] height = new double[number];
-        double[] bmi = new double[number];
-        String[] status = new String[number];
-
-        // Input weight and height
-        for (int i = 0; i < number; i++) {
-            System.out.print("Enter weight (kg) of person " + (i + 1) + ": ");
-            weight[i] = sc.nextDouble();
-            System.out.print("Enter height (m) of person " + (i + 1) + ": ");
-            height[i] = sc.nextDouble();
+        // Input weight and height for each person
+        for (int i = 0; i < 10; i++) {
+            System.out.print("Enter weight (kg) for person " + (i + 1) + ": ");
+            personData[i][0] = sc.nextDouble();
+            System.out.print("Enter height (cm) for person " + (i + 1) + ": ");
+            personData[i][1] = sc.nextDouble();
 
             // Calculate BMI
-            bmi[i] = weight[i] / (height[i] * height[i]);
-
-            // Determine weight status
-            if (bmi[i] < 18.5) {
-                status[i] = "Underweight";
-            } else if (bmi[i] < 24.9) {
-                status[i] = "Normal";
-            } else if (bmi[i] < 29.9) {
-                status[i] = "Overweight";
-            } else {
-                status[i] = "Obese";
-            }
+            personData[i][2] = calculateBMI(personData[i][0], personData[i][1]);
         }
 
-        // Display results
-        System.out.println("\nHeight\tWeight\tBMI\t\tStatus");
-        for (int i = 0; i < number; i++) {
-            System.out.print(height[i] + "\t" + weight[i] + "\t" + bmi[i] + "\t" + status[i] + "\n");
+        // Display BMI and status
+        System.out.println("\nPerson Details (Weight, Height, BMI, Status):");
+        for (int i = 0; i < 10; i++) {
+            double bmi = personData[i][2];
+            String status = determineBMIStatus(bmi);
+            System.out.println("Person " + (i + 1) + ": " + personData[i][0] + " kg, "
+                    + personData[i][1] + " cm, BMI: " + bmi + ", Status: " + status);
         }
-        sc.close();
     }
 }
